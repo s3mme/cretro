@@ -7,15 +7,15 @@
 #include <stdio.h>
 #include <time.h>
 
-#define MEMORY_SIZE 4096
-#define REGISTER_COUNT 16
-#define STACK_LEVELS 16
-#define KEY_SIZE 16
-#define VIDEO_HEIGHT 32
-#define VIDEO_WIDTH 64
+#define MEMORY_SIZE		  4096
+#define REGISTER_COUNT	  16
+#define STACK_LEVELS	  16
+#define KEY_SIZE		  16
+#define VIDEO_HEIGHT	  32
+#define VIDEO_WIDTH		  64
 #define SCREEN_DIMENSIONS (VIDEO_WIDTH * VIDEO_HEIGHT)
 
-void rom_load(const char *filename);
+void rom_load(char const *filename);
 void machine_init(void);
 void cpu_step(void);
 
@@ -83,7 +83,7 @@ void OPC_8xy4(void);
 // SUB Vx, Vy: Set Vx := Vx - Vy, set VF := NOT borrow.
 void OPC_8xy5(void);
 
-// SHR Vx: Set Vx = Vx SHR 1. 
+// SHR Vx: Set Vx = Vx SHR 1.
 void OPC_8xy6(void);
 
 // SUBN Vx, Vy: Set Vx := Vy - Vx, set VF = NOT borrow.
@@ -129,7 +129,8 @@ void OPC_Fx18(void);
 // Fx1E - ADD I, Vx: Set I = I + Vx. The values of I and Vx are added, and the results are stored in I.
 void OPC_Fx1E(void);
 
-// Fx29 - LD F, Vx: Set I = location of sprite for digit Vx. The value of I is set to the location for the hexadecimal sprite corresponding to the value of Vx.
+// Fx29 - LD F, Vx: Set I = location of sprite for digit Vx. The value of I is set to the location for the
+// hexadecimal sprite corresponding to the value of Vx.
 void OPC_Fx29(void);
 
 // Fx33 - LD B, Vx: Store BCD representation of Vx in memory locations I, I+1, and I+2.

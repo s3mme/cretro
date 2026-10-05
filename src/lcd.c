@@ -10,19 +10,14 @@ static SDL_Texture *texture;
 void lcd_init(void) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
-	window = SDL_CreateWindow(
-		"cretro - Chip 8 Emulator",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		640, 320,
-		SDL_WINDOW_INPUT_FOCUS
-	);
+	window = SDL_CreateWindow("cretro - Chip 8 Emulator", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+							  640, 320, SDL_WINDOW_INPUT_FOCUS);
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 64, 32);
+	texture	 = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 64, 32);
 }
 
-static void process_key(const SDL_Event *e, bool value) {
+static void process_key(SDL_Event const *e, bool value) {
 	switch (e->key.keysym.sym) {
 		case SDLK_x:
 			m.keys[0] = value;
@@ -84,29 +79,29 @@ bool lcd_process_input(void) {
 
 	while (SDL_PollEvent(&e)) {
 		switch (e.type) {
-		case SDL_QUIT:
-			running = SDL_FALSE;
-			break;
-		case SDL_KEYDOWN:
-			if (e.key.keysym.sym == SDLK_ESCAPE) {
+			case SDL_QUIT:
 				running = SDL_FALSE;
 				break;
-			}
-			process_key(&e, 1);
-			break;
-		case SDL_KEYUP:
-			process_key(&e, 0);
-			break;
-        default:
-            // Ignore unknown key events
-            break;
+			case SDL_KEYDOWN:
+				if (e.key.keysym.sym == SDLK_ESCAPE) {
+					running = SDL_FALSE;
+					break;
+				}
+				process_key(&e, 1);
+				break;
+			case SDL_KEYUP:
+				process_key(&e, 0);
+				break;
+			default:
+				// Ignore unknown key events
+				break;
 		}
 	}
 
 	return running;
 }
 
-void lcd_step(const void *buffer, int pitch) {
+void lcd_step(void const *buffer, int pitch) {
 	SDL_UpdateTexture(texture, NULL, buffer, pitch);
 	SDL_SetTextureColorMod(texture, 69, 170, 242);
 	SDL_RenderClear(renderer);

@@ -8,6 +8,6 @@
 
 void lcd_init(void);
 bool lcd_process_input(void);
-void lcd_step(void const* buffer, int pitch);
+void lcd_step(void const *buffer, int pitch);
 
 #endif

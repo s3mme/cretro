@@ -11,23 +11,23 @@
 #include "cli.h"
 #include "logging.h"
 
-int main(int argc, char** argv) {
-    arg_conf* conf = cli_config_default();
+int main(int argc, char **argv) {
+	arg_conf *conf = cli_config_default();
 
 	if (cli_config_handle(conf, argc, argv)) {
-        cli_config_destroy(conf);
-        return EXIT_FAILURE;
-    }
+		cli_config_destroy(conf);
+		return EXIT_FAILURE;
+	}
 
 	machine_init();
 
 	rom_load(conf->rom_path);
 	LOG_INFO("Successfully initialized ROM");
 
-    lcd_init();
+	lcd_init();
 	LOG_INFO("Successfully initialized LCD");
 
-	int videoPitch = sizeof(m.video[0]) * VIDEO_WIDTH;
+	int video_pitch = sizeof(m.video[0]) * VIDEO_WIDTH;
 
 	struct timeval cpu_clock_prev;
 	gettimeofday(&cpu_clock_prev, NULL);
@@ -37,23 +37,23 @@ int main(int argc, char** argv) {
 	pthread_create(&tid, NULL, &timer_update_callback, NULL);
 
 	bool running = true;
-    while (running) {
+	while (running) {
 		running = lcd_process_input();
 
 		handle_sound();
 
 		struct timeval clock_now;
-	    gettimeofday(&clock_now, NULL);
+		gettimeofday(&clock_now, NULL);
 		long dt = timediff_us(&clock_now, &cpu_clock_prev);
 		if (dt > conf->us_delay) {
 			cpu_step();
-			lcd_step(m.video, videoPitch);
+			lcd_step(m.video, video_pitch);
 			cpu_clock_prev = clock_now;
 		}
 	}
 
 	SDL_Quit();
-    cli_config_destroy(conf);
+	cli_config_destroy(conf);
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
