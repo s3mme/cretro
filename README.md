@@ -99,10 +99,6 @@ Don't forget to give the project a star! Thanks again!
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## Contact
-
-Samir Benzammour - [@benzammour](https://twitter.com/benzammour) - hi (at) benzammour (dot) com
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 [bat-demo]: .github/images/bat.png
