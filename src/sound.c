@@ -28,7 +28,7 @@ static void sound_stop(void) {
 	SDL_PauseAudio(1);
 }
 
-int sound_init() {
+int sound_init(void) {
 	SDL_AudioSpec want;
 	want.freq	  = FREQUENCY;
 	want.format	  = AUDIO_S8;
@@ -45,7 +45,7 @@ int sound_init() {
 	return 0;
 }
 
-void handle_sound() {
+void handle_sound(void) {
 	if (m.should_beep) {
 		sound_play();
 	} else {

@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <errno.h>
 #include "cpu.h"
@@ -179,7 +180,7 @@ void machine_init(void) {
 
 void cpu_step(void) {
 	// Get opcode and increment PC
-	m.opcode = (m.memory[m.PC] << 8) | m.memory[m.PC + 1];
+	m.opcode = (uint16_t) ((m.memory[m.PC] << 8) | m.memory[m.PC + 1]);
 
 	m.PC += 2;
 
@@ -324,7 +325,7 @@ void OPC_8xyE(void) {
 	// analogously with msb = 0
 	m.registers[0xF] = (m.registers[vx] & 0b10000000) >> 7;
 
-	m.registers[vx] = m.registers[vx] << 1;
+	m.registers[vx] = (uint8_t) (m.registers[vx] << 1);
 }
 
 void OPC_9xy0(void) {
