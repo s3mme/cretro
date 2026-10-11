@@ -280,22 +280,28 @@ void OPC_8xy3(void) {
 	m.registers[vx] ^= m.registers[vy];
 }
 
+// Add the value of register VY to register VX
+// Set VF to 01 if a carry occurs
+// Set VF to 00 if a carry does not occur
 void OPC_8xy4(void) {
 	uint8_t vx = GET_X(m.opcode);
 	uint8_t vy = GET_Y(m.opcode);
+	LOG_DEBUG("vx: %b", vx);
+	LOG_DEBUG("vy: %b", vx);
 
-	uint16_t sum = m.registers[vx] + m.registers[vy];
-
-	m.registers[0xF] = sum > 255;
-
-	m.registers[vx] = (uint8_t) (sum & 0xFF);
+	uint16_t sum = (m.registers[vx] + m.registers[vy]) & 0xFF;
+	LOG_DEBUG("sum: %b", sum);
+	m.registers[vx] += m.registers[vy];
+	LOG_DEBUG("vx reg: %b", m.registers[vx]);
+	m.registers[vy] = sum > 255;
+	LOG_DEBUG("vy reg: %b", m.registers[vy]);
 }
 
 void OPC_8xy5(void) {
 	uint8_t vx = GET_X(m.opcode);
 	uint8_t vy = GET_Y(m.opcode);
 
-	m.registers[0xF] = m.registers[vx] > m.registers[vy];
+	// m.registers[0xF] = m.registers[vx] > m.registers[vy];
 
 	m.registers[vx] -= m.registers[vy];
 }
@@ -313,7 +319,7 @@ void OPC_8xy7(void) {
 	uint8_t vx = GET_X(m.opcode);
 	uint8_t vy = GET_Y(m.opcode);
 
-	m.registers[0xF] = m.registers[vy] > m.registers[vx];
+	// m.registers[0xF] = m.registers[vy] > m.registers[vx];
 
 	m.registers[vx] = m.registers[vy] - m.registers[vx];
 }
